@@ -217,6 +217,9 @@ describe(`document level security`, () => {
     );
     expect(wrapper.find('EuiSwitch[data-test-subj="restrictDocumentsQuery0"]')).toHaveLength(1);
     expect(wrapper.find(CodeEditorField)).toHaveLength(1);
+    expect(wrapper.find(CodeEditorField).prop('options')).toEqual(
+      expect.objectContaining({ automaticLayout: true })
+    );
   });
 });
 

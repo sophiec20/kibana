@@ -100,7 +100,11 @@ export class IndexPrivilegeForm extends Component<Props, State> {
       <Fragment>
         <EuiSpacer size="m" />
         <EuiFlexGroup alignItems="center" responsive={false} className="index-privilege-form">
-          <EuiFlexItem>
+          <EuiFlexItem
+            css={css`
+              min-width: 0;
+            `}
+          >
             <EuiPanel color="subdued">{this.getPrivilegeForm()}</EuiPanel>
           </EuiFlexItem>
           {!this.props.isRoleReadOnly && (
@@ -430,7 +434,11 @@ export class IndexPrivilegeForm extends Component<Props, State> {
             </EuiFlexItem>
           )}
           {this.state.queryExpanded && (
-            <EuiFlexItem>
+            <EuiFlexItem
+              css={css`
+                min-width: 0;
+              `}
+            >
               <EuiFormRow
                 label={
                   <FormattedMessage
@@ -440,30 +448,49 @@ export class IndexPrivilegeForm extends Component<Props, State> {
                 }
                 fullWidth
                 data-test-subj={`queryInput${this.props.formIndex}`}
+                css={css`
+                  min-width: 0;
+                  max-width: 100%;
+                `}
               >
-                <CodeEditorField
-                  languageId="xjson"
-                  width="100%"
-                  fullWidth
-                  height={this.state.documentQueryEditorHeight}
-                  aria-label={i18n.translate(
-                    'xpack.security.management.editRole.indexPrivilegeForm.grantedDocumentsQueryEditorAriaLabel',
-                    {
-                      defaultMessage: 'Granted documents query editor',
+                <div
+                  css={css`
+                    min-width: 0;
+                    max-width: 100%;
+                    width: 100%;
+
+                    .euiFormControlLayout,
+                    .react-monaco-editor-container {
+                      min-width: 0;
+                      max-width: 100%;
                     }
-                  )}
-                  value={indexPrivilege.query ?? ''}
-                  onChange={this.onQueryChange}
-                  options={{
-                    readOnly: this.props.isRoleReadOnly,
-                    minimap: {
-                      enabled: false,
-                    },
-                    // Prevent an empty form from showing an error
-                    renderValidationDecorations: indexPrivilege.query ? 'editable' : 'off',
-                  }}
-                  editorDidMount={this.editorDidMount}
-                />
+                  `}
+                >
+                  <CodeEditorField
+                    languageId="xjson"
+                    width="100%"
+                    fullWidth
+                    height={this.state.documentQueryEditorHeight}
+                    aria-label={i18n.translate(
+                      'xpack.security.management.editRole.indexPrivilegeForm.grantedDocumentsQueryEditorAriaLabel',
+                      {
+                        defaultMessage: 'Granted documents query editor',
+                      }
+                    )}
+                    value={indexPrivilege.query ?? ''}
+                    onChange={this.onQueryChange}
+                    options={{
+                      readOnly: this.props.isRoleReadOnly,
+                      automaticLayout: true,
+                      minimap: {
+                        enabled: false,
+                      },
+                      // Prevent an empty form from showing an error
+                      renderValidationDecorations: indexPrivilege.query ? 'editable' : 'off',
+                    }}
+                    editorDidMount={this.editorDidMount}
+                  />
+                </div>
               </EuiFormRow>
             </EuiFlexItem>
           )}
